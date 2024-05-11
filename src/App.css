@@ -1,0 +1,37 @@
+body{
+  background-color: #3E2B02;
+  color: gray;
+}
+
+.arrow-animation{
+  color: green;
+  animation: rotate180 0.1s linear forwards;
+}
+
+@keyframes rotate180 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+/* card comp style */
+.shadow-gray {
+  box-shadow: 0px 4px 6px -1px rgba(128, 128, 128, 0.4), 0px 2px 4px -1px rgba(128, 128, 128, 0.6);
+}
+
+
+/* hide scrollbar while still be able to scroll */
+.custom-scrollbar {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+
