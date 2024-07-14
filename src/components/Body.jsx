@@ -18,7 +18,6 @@ const Body = () => {
 
   // our custom hook useListOfRestaurant returns all the necessary details to us
     const {filteredRestro, setFilteredRestro, listOfRestro, searchTxt, setSearchTxt, loading} = useListOfRestaurant();
-    const {loggedInName, setLoggedInName} = useContext(userContext)
 
     const onlineStatus = useOnlineStatus();
 

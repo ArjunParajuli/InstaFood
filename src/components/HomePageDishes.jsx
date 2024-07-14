@@ -1,51 +1,54 @@
-import React, { useState} from 'react'
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
-import { IMG_CDN_URL } from '../utils/data'
-import { HOME_PAGE_DISHES } from '../utils/data'
+import React, { useRef } from 'react';
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { IMG_CDN_URL, HOME_PAGE_DISHES } from '../utils/data';
 
 const HomePageDishes = () => {
-    const [currDishNum, setCurrDishNum] = useState(0);
+    const scrollRef = useRef();
+    const dishesToShow = 6;
+    const itemWidth = 165; // Width of each item in pixels (adjust as needed)
 
-    const prevHandler = () => {
-        if(currDishNum-7 >= 0)
-            setCurrDishNum((prev) => (prev-7))
-    }
+    const scrollLeft = () => {
+        scrollRef.current.scrollTo({
+            left: scrollRef.current.scrollLeft - 300, 
+            behavior: 'smooth',
+        });
+    };
 
-    const nextHandler = () => {
-        if(currDishNum+7 <= HOME_PAGE_DISHES.length-1)
-            setCurrDishNum((prev) => (prev+7))
-    }
+    const scrollRight = () => {
+        scrollRef.current.scrollTo({
+            left: scrollRef.current.scrollLeft + 300,
+            behavior: 'smooth', 
+        });
+    };
 
-    const currSlide = HOME_PAGE_DISHES.filter((dish, idx) => (idx >= currDishNum && idx < currDishNum+7) ) 
-
-  return (
-    <div className='w-10/12 mx-auto'>
-
-        <div className='flex justify-between mb-7 max-[471px]:flex-col'>
-            <h1 className='font-bold text-xl text-white max-[471px]:text-md'>What's on your mind today?</h1>
-            <div className='flex gap-4 max-[471px]:gap-1'>
-                <span onClick={prevHandler} className='border border-[#E2E2E7] rounded-full bg-[#E2E2E7] text-black p-2 opacity-50 cursor-pointer hover:bg-white hover:text-black'><FaArrowLeft /></span>
-                <span onClick={nextHandler} className='border border-[#E2E2E7] rounded-full bg-[#E2E2E7] text-black p-2 opacity-50 cursor-pointer hover:bg-white hover:text-black'><FaArrowRight /></span>
+    return (
+        <div className='w-10/12 mx-auto'>
+            <div className='flex justify-between mb-7 max-[471px]:flex-col'>
+                <h1 className='font-bold text-xl text-white max-[471px]:text-md'>What's on your mind today?</h1>
+                <div className='flex gap-4 max-[471px]:gap-1'>
+                    <span onClick={scrollLeft} className='border border-[#E2E2E7] rounded-full bg-[#E2E2E7] text-black p-2 opacity-50 cursor-pointer hover:bg-white hover:text-black'>
+                        <FaArrowLeft />
+                    </span>
+                    <span onClick={scrollRight} className='border border-[#E2E2E7] rounded-full bg-[#E2E2E7] text-black p-2 opacity-50 cursor-pointer hover:bg-white hover:text-black'>
+                        <FaArrowRight />
+                    </span>
+                </div>
+            </div>
+            
+            <div className='overflow-x-hidden' ref={scrollRef} style={{ width: '100%' }}>
+                <ul className='flex space-x-4' style={{ width: `${HOME_PAGE_DISHES.length * (100 / dishesToShow)}%` }}>
+                    {HOME_PAGE_DISHES.map((dish, index) => {
+                        const srcImg = IMG_CDN_URL + dish.imageId;
+                        return (
+                            <li key={index} className='' >
+                                <img src={srcImg} alt={dish.name} className='w-full h-auto sm:w-[165px] sm:h-[180px] rounded' />
+                            </li>
+                        );
+                    })}
+                </ul>
             </div>
         </div>
-        
-        <div className='overflow-x-auto'>
-        <ul className='flex justify-center overflow-x-auto'>
-            {
-                currSlide.map((dish)=>{
-                    const srcImg = IMG_CDN_URL+dish.imageId;
-                    return (
-                        <div className=''>
-                            <img src={srcImg} className='w-[100px] h-[100px] sm:w-[165px] sm:h-[180px] ' ></img>
-                        </div>
-                    )
-                })
-            }
-        </ul>
-        </div>
-
-    </div>
-  )
+    );
 }
 
-export default HomePageDishes
+export default HomePageDishes;
